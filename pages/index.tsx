@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-
+ 
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
@@ -19,8 +19,13 @@ const Home: NextPage = () => {
 
         <p className={styles.description}>
           Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
+          <code className={styles.code}>pages/pdp/[id].tsx</code>   Take a look at the
+        </p> 
+        <p className={styles.title}>
+        <a href="pdp/MGG73GG">ProductDetailPage (PDP)
+           </a> 
         </p>
+        <p>&nbsp;</p>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>

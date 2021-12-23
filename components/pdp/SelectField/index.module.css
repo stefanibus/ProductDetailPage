@@ -1,0 +1,70 @@
+.wrapper {
+  position: relative;
+  min-width: 370px;
+}
+@media only screen and (max-width: 480px) {
+  .wrapper {
+    min-width: unset;
+    max-width: 95vw;
+  }
+}
+
+.select-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.select-field label {
+  color: var(--gray-800);
+}
+.select-field label {
+  padding-top: 1em;
+}
+
+@media only screen and (min-width: 1300px) {
+  .select-field label {
+    transform: translate(-108px, 35px);
+  }
+}
+
+.select {
+  appearance: none;
+  border: 1px solid var(--gray-500);
+  border-radius: var(--border-radius-1);
+  background-color: var(--gray-50);
+  padding: var(--scale-2) var(--scale-5) var(--scale-2) var(--scale-2);
+  width: 100%;
+
+  -moz-appearance: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  width: 100%;
+  height: 40px;
+  -moz-padding-start: calc(10px - 3px);
+  padding-left: 10px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px 1px rgb(0 0 0 / 30%);
+  border-radius: 3px;
+  outline: double;
+  color: #666;
+  cursor: pointer;
+}
+
+.caret-wrapper {
+  position: absolute;
+  padding: 0 var(--scale-2);
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+
+.caret {
+  height: 1em;
+  width: 1em;
+}
