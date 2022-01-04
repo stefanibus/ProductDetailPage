@@ -7,6 +7,7 @@ import Head from 'next/head';
 import styles from './index.module.css';
 import SelectField from '../../components/pdp/SelectField';
 import DropdownContent from '../../components/pdp/DropdownContent';
+import Price from '../../components/pdp/Price';
 
 const ProdDetailPage = ({ product }: any) => {
   const router = useRouter();
@@ -21,18 +22,36 @@ const ProdDetailPage = ({ product }: any) => {
 
   // [query.format]
   useEffect(() => {
-    const findVariant = (formatValue: string | string[]) => {
+    const selectVariant = (formatValue: string | string[] | undefined) => {
       return product.variants.find(
         (variant: any) => variant.format === formatValue
       );
     };
-    // set Variant according to query Value
-    if (!!query.format && variant.format !== query.format) {
-      setVariant(findVariant(query.format));
+    const newDefaultFormat =
+      // default format differs to current variant format
+      variant.format !== defaultProdOptions.format;
+    const newQueryFormat =
+      // the current variant differs from that query value
+      variant.format !== query.format;
+
+    // set variant to default variant (no query.format)
+    if (!Boolean(query.format) && newDefaultFormat) {
+      setVariant(selectVariant(defaultProdOptions.format));
     }
-    // no format query --> set variant to default-Product-Options
-    if (!query.format && variant.format !== defaultProdOptions.format) {
-      setVariant(findVariant(defaultProdOptions.format));
+    // set variant to query.format (query.format does exist and is valid)
+    if (Boolean(query.format) && newQueryFormat) {
+      const updateVariant = selectVariant(query.format);
+      const formatIsValid = product.variants.some(
+        (variant: any) => variant['format'] === query.format
+      );
+      if (formatIsValid) {
+        setVariant(updateVariant);
+      } else {
+        // invalid query.format --> set variant to default
+        router.replace({
+          query: { ...query, ...{ format: defaultProdOptions.format } }
+        });
+      }
     }
   }, [
     query.format,
@@ -43,9 +62,25 @@ const ProdDetailPage = ({ product }: any) => {
 
   // [query]  = update ConfigSettings
   useEffect(() => {
-    const settings = { ...defaultProdOptions, ...query };
-    // update ConfigSettings
-    setConfigSettings(settings);
+    const queryInput = { ...configSettings, ...{ format: query.format } };
+
+    const validateQueryInput = (type: string) => {
+      const ValidQueryValue = queryHelper.isValid(type, variant, query);
+
+      if (ValidQueryValue) {
+        // update queryInput with valid value
+        queryInput[type] = query[type];
+      } else {
+        // reset queryInput to default
+        queryInput[type] = defaultProdOptions[type];
+      }
+    };
+
+    // validate query values for paper, refinement and quantity
+    const formatTypes = ['paper', 'refinement', 'quantity'];
+    formatTypes.forEach(validateQueryInput);
+    // update configSettings with validated query-input
+    setConfigSettings(queryInput);
   }, [query, defaultProdOptions]);
 
   const handleDropdown = (
@@ -57,12 +92,6 @@ const ProdDetailPage = ({ product }: any) => {
         query: { ...query, [selectFieldType]: event.target.value }
       });
     }
-  };
-
-  const getQuery = (selectType: string) => {
-    return router.query[selectType]
-      ? router.query[selectType]
-      : defaultProdOptions[selectType];
   };
 
   return (
@@ -77,8 +106,9 @@ const ProdDetailPage = ({ product }: any) => {
           <p>Product Description</p>
           <h1>Headline</h1>
           <h3>SubTitle</h3>
-          <p>PriceInfo Component</p>
-          <a href={queryHelper.assembleConfigURL(configSettings)}>
+          <p>Price Component</p>
+          <Price configSettings={configSettings} variant={variant} />
+          <a href={queryHelper.assembleURL(configSettings)}>
             config button href{' '}
           </a>
         </div>
@@ -88,8 +118,8 @@ const ProdDetailPage = ({ product }: any) => {
             label="Format"
             id="format"
             className={variant.format}
-            defaultValue={getQuery('format')}
-            key={getQuery('format')}
+            defaultValue={configSettings.format}
+            key={configSettings.format}
             onChange={e => handleDropdown('format', e)}
           >
             <DropdownContent
@@ -101,8 +131,8 @@ const ProdDetailPage = ({ product }: any) => {
           <SelectField
             label="Papier"
             id="paper"
-            defaultValue={getQuery('paper')}
-            key={getQuery('paper')}
+            defaultValue={configSettings.paper}
+            key={configSettings.paper}
             onChange={e => handleDropdown('paper', e)}
           >
             <DropdownContent
@@ -114,8 +144,8 @@ const ProdDetailPage = ({ product }: any) => {
           <SelectField
             label="Veredelung"
             id="refinement"
-            defaultValue={getQuery('refinement')}
-            key={getQuery('refinement')}
+            defaultValue={configSettings.refinement}
+            key={configSettings.refinement}
             onChange={e => handleDropdown('refinement', e)}
           >
             <DropdownContent
@@ -126,8 +156,8 @@ const ProdDetailPage = ({ product }: any) => {
           <SelectField
             label="Menge"
             id="quantity"
-            defaultValue={getQuery('quantity')}
-            key={getQuery('quantity')}
+            defaultValue={configSettings.quantity}
+            key={configSettings.quantity}
             onChange={e => handleDropdown('quantity', e)}
           >
             <DropdownContent
