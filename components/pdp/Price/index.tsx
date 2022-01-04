@@ -1,4 +1,5 @@
 import queryHelper from '../../../utils/config';
+import formatter from '../../../utils/currencyFormatter';
 
 // @ts-ignore: Unreachable code error
 const PriceInfo = ({ configSettings, variant }) => {
@@ -13,12 +14,6 @@ const PriceInfo = ({ configSettings, variant }) => {
       100
     );
   };
-
-  // number formatter
-  const formatter = new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency: 'EUR'
-  });
 
   return <p>{formatter.format(calcPrice())}</p>;
 };

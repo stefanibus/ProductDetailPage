@@ -1,4 +1,5 @@
 import queryHelper from '../../../utils/config';
+import formatter from '../../../utils/currencyFormatter';
 
 const CreateDropdown = (
   selecttype = '',
@@ -24,11 +25,8 @@ const CreateDropdown = (
         >
           {object[labelVal]}
           {object.price
-            ? ` ${selecttype === 'paper' ? ` + ` : `Stück a' `}${(
-                object.price / 100
-              )
-                .toFixed(2)
-                .toString()} Euro`
+            ? ` ${selecttype === 'quantity' ? ` Stück a' ` : ` + `}
+                ${formatter.format(Number(object.price) / 100)}`
             : undefined}
         </option>
       );

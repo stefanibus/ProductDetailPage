@@ -5,34 +5,35 @@ import CreateDropdown from './createDropdown';
 type DropdownContentProps = {
   dropdownname: string;
   variantsArray: any;
-  handleDropdown?: (e: any, f?: any) => void;
+  handleDropdown?: (e: string) => void;
 } & React.ComponentPropsWithoutRef<'option'>;
 
 // @ts-ignore: Unreachable code error
 const DropdownContent: React.FC<DropdownContentProps> = ({
   dropdownname,
   variantsArray,
-  handleDropdown = (e: any) => {}
+  handleDropdown = (e: string) => {}
 }) => {
   const router = useRouter();
   const { query } = router;
 
   useEffect(() => {
+    const refinementValueIsNotDefault =
+      query.refinement && query.refinement !== 'V00';
+    // refinable Paper only in --> shortPaperList
+    const shortPaperList = variantsArray.filter(
+      (object: { isRefinable: any }) => object.isRefinable
+    );
+    const QueryPaperValue_IsMissingInShortPaperList = !shortPaperList.some(
+      (paper: { key: string | string[] | undefined }) =>
+        paper.key === query.paper
+    );
+
     // paper-dropdown
     if (dropdownname === 'paper') {
-      // refinement-Value is not equal to default-Value
-      if (query.refinement && query.refinement !== 'V00') {
-        const refinablePaper = variantsArray.filter(
-          (object: { isRefinable: any }) => object.isRefinable
-        );
-        // IF the query-Paper-value is missing inside of our shortened refinablePaper-List
-        if (
-          !refinablePaper.some(
-            (paper: { key: string | string[] | undefined }) =>
-              paper.key === query.paper
-          )
-        ) {
-          // --> reset query.paper to default paper-value
+      if (refinementValueIsNotDefault) {
+        if (QueryPaperValue_IsMissingInShortPaperList) {
+          // --> set query.paper-value to default
           handleDropdown('paper');
         }
       }
