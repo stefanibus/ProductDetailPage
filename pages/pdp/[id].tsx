@@ -9,7 +9,7 @@ import SelectField from '../../components/pdp/SelectField';
 import Select from '../../components/pdp/Select';
 import Price from '../../components/pdp/Price';
 import Button from '../../components/button';
-import Image from '../../components/pdp/images';
+import Images from '../../components/pdp/images';
 
 const ProdDetailPage = ({ product }: any) => {
   const router = useRouter();
@@ -55,6 +55,7 @@ const ProdDetailPage = ({ product }: any) => {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     query.format,
     product.variants,
@@ -83,6 +84,7 @@ const ProdDetailPage = ({ product }: any) => {
     formatTypes.forEach(validateQueryInput);
     // update configSettings with validated query-input
     setConfigSettings(queryInput);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, defaultProductOptions]);
 
   const handleDropdown = (
@@ -104,7 +106,7 @@ const ProdDetailPage = ({ product }: any) => {
           <link rel="icon" href="https://www.make-mobile.de/favicon.ico" />
         </Head>
         <main className={styles.main}>
-          <Image variant={variant} />
+          <Images variant={variant} />
           <div className={styles.productDescription}>
             <div>
               <h1 className={styles.cardType}>{product.groupName}</h1>
@@ -163,10 +165,9 @@ const ProdDetailPage = ({ product }: any) => {
               />
             </SelectField>
             <div className={styles.wrapButton}>
-              <Button
-                href={`${queryHelper.assembleURL(configSettings)}`}
-                children="Jetzt gestalten"
-              />
+              <Button href={`${queryHelper.assembleURL(configSettings)}`}>
+                Jetzt gestalten
+              </Button>
             </div>
           </div>
         </main>

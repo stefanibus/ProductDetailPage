@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import styles from './index.module.css';
 import Head from 'next/head';
+import styles from './index.module.css';
 import Button from '../../components/button';
 
 const Configure = () => {
@@ -26,7 +26,7 @@ const Configure = () => {
             })}
           </ul>
           <div className={styles.wrapButton}>
-            <Button children="zurück..." onClick={() => router.back()} />
+            <Button onClick={() => router.back()}>zurück...</Button>
           </div>
         </main>
       </div>

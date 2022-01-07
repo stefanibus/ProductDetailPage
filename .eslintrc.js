@@ -1,7 +1,10 @@
+// eslintrc.js file
+
 module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
+    // project: './tsconfig.json',
     ecmaFeatures: {
       jsx: true
     }
@@ -16,6 +19,7 @@ module.exports = {
       version: 'detect'
     }
   },
-  extends: ['plugin:react/recommended', 'airbnb', 'prettier', 'prettier/react'],
+
+  extends: ['next/core-web-vitals', 'prettier'],
   plugins: ['react', 'prettier']
 };
