@@ -2,19 +2,19 @@
 
 ### running on Next JS 12+, REST API, TypeScript, with URL-Parameters via React Router Query including param-value-verification
 
-'
-
 ###### Demo on Vercel: https://willFollowLater.vercel.app/products/
+
+'
 
 [![Product Detail Page](./public/img/readme2.jpg)](https://willFollowLater.vercel.app/products/)
 
-🚀 Next.js, TypeScript, ⚡️ ESLint, Forwarding Refs, browser api curreny formatter, Internationalization API Intl.NumberFormat, cypress & jest, VSCode, Prettier, Vercel.
+### 🚀 Next.js, browser api curreny formatter, cypress & jest, TypeScript, ESLint, Forwarding Refs, Internationalization API Intl.NumberFormat.
 
-URL-Parameters with value-verification for React Router Query-Values.
+Value-verification for React Router Query-Values (URL-Parameters)
 
-REST API is requested serverside via ISG ( [Incremental Site Generation](https://www.smashingmagazine.com/2021/04/incremental-static-regeneration-nextjs/) ) to create and deliver Static Pages for all ProductDetail-Pages
+### ⚡️Static Pages for all ProductDetail-Pages
 
-Data gets revalidated in hindsight on the server (once every 24 hours).
+Data gets revalidated in hindsight on the server (once every 24 hours) = REST API is requested serverside via ISG ( [Incremental Site Generation](https://www.smashingmagazine.com/2021/04/incremental-static-regeneration-nextjs/) ) to create and deliver Static Pages for all ProductDetail-Pages
 
 ### Features
 
@@ -23,7 +23,7 @@ Data gets revalidated in hindsight on the server (once every 24 hours).
 - 🎉 Type checking [TypeScript](https://www.typescriptlang.org)
 - ✅ Strict Mode for TypeScript and React 17
 - ✏️ Linter with [ESLint](https://eslint.org) (default NextJS, NextJS Core Web Vitals and Airbnb configuration)
-- 🛠 Code Formatter with [Prettier](https://prettier.io)
+- 🛠 Code Formatter with [Prettier](https://prettier.io) / VSCode
 
 Built-in feature from Next.js:
 
