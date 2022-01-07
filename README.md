@@ -2,11 +2,11 @@
 
 ### running on Next JS 12+, REST API, TypeScript, with URL-Parameters via React Router Query including param-value-verification
 
-###### Demo on Vercel: https://willFollowLater.vercel.app/products/
+###### Demo on Vercel: https://product-detail-page.vercel.app/pdp/MGG73GG
 
 '
 
-[![Product Detail Page](./public/img/readme2.jpg)](https://willFollowLater.vercel.app/products/)
+[![Product Detail Page](./public/img/readme2.jpg)](https://product-detail-page.vercel.app/pdp/MGG73GG)
 
 ### 🚀 Next.js, browser api curreny formatter, cypress & jest, TypeScript, ESLint, Forwarding Refs, Internationalization API Intl.NumberFormat.
 
@@ -46,12 +46,12 @@ Built-in feature from Next.js:
 Run the following command on your local environment:
 
 ```
-git clone --depth=1 https://github.com/stefanibus/stefanoToBeUpdated.git my-project-name
+git clone --depth=1 https://github.com/stefanibus/ProductDetailPage.git my-project-name
 cd my-project-name
 npm install
 ```
 
-Open [http://localhost:3000/pdp/MGG73GG](http://localhost:3000/pdp/MGG73GG) with your favorite browser to see your project.
+Open [http://localhost:3000/pdp/MGG73GG](https://product-detail-page.vercel.app/pdp/MGG73GG) with your favorite browser to see your project.
 
 You can start editing the page by modifying `pages/pdp/[id].tsx`.
 
