@@ -1,0 +1,21 @@
+.price {
+  border-bottom: 1px solid #d8d8d8;
+  margin: 0 0 25px;
+  padding: 0.5rem 0 1.1rem;
+
+  font-weight: 600;
+  color: #555;
+  font-size: 1.2em;
+}
+
+@media only screen and (min-width: 480px) and (max-width: 967px) {
+  .price {
+    font-size: 1.7em;
+    text-align: right;
+
+    display: inline-block;
+    background-color: var(--indigo-200);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+}

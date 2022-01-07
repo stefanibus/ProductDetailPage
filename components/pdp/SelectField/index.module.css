@@ -18,10 +18,10 @@
   color: var(--gray-800);
 }
 .select-field label {
-  padding-top: 1em;
+  padding-top: 1.2rem;
 }
 
-@media only screen and (min-width: 1300px) {
+@media only screen and (min-width: 1500px) {
   .select-field label {
     transform: translate(-108px, 35px);
   }

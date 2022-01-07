@@ -25,7 +25,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
+}
+
+.footer a .love {
+  color: #e25555 !important;
+  margin: 0 0.5rem;
 }
 
 .title a {

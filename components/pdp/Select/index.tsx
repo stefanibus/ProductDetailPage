@@ -4,14 +4,14 @@ import CreateDropdown from './createDropdown';
 
 type DropdownContentProps = {
   dropdownname: string;
-  variantsArray: any;
+  relevantVariant: any;
   handleDropdown?: (e: string) => void;
-} & React.ComponentPropsWithoutRef<'option'>;
+} & React.ComponentPropsWithoutRef<'select'>;
 
 // @ts-ignore: Unreachable code error
-const DropdownContent: React.FC<DropdownContentProps> = ({
+const Select: React.FC<DropdownContentProps> = ({
   dropdownname,
-  variantsArray,
+  relevantVariant,
   handleDropdown = (e: string) => {}
 }) => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const DropdownContent: React.FC<DropdownContentProps> = ({
     const refinementValueIsNotDefault =
       query.refinement && query.refinement !== 'V00';
     // refinable Paper only in --> shortPaperList
-    const shortPaperList = variantsArray.filter(
+    const shortPaperList = relevantVariant.filter(
       (object: { isRefinable: any }) => object.isRefinable
     );
     const QueryPaperValue_IsMissingInShortPaperList = !shortPaperList.some(
@@ -41,33 +41,33 @@ const DropdownContent: React.FC<DropdownContentProps> = ({
   }, [
     query.paper,
     dropdownname,
-    variantsArray,
+    relevantVariant,
     query.refinement,
     handleDropdown
   ]);
 
-  const refinablePaper = variantsArray.filter(
+  const refinablePaper = relevantVariant.filter(
     (object: { isRefinable: any }) => object.isRefinable
   );
 
   switch (dropdownname) {
     case 'format': {
-      return CreateDropdown('format', dropdownname, variantsArray);
+      return CreateDropdown('format', dropdownname, relevantVariant);
     }
     case 'refinement': {
-      return CreateDropdown('refinement', dropdownname, variantsArray);
+      return CreateDropdown('refinement', dropdownname, relevantVariant);
     }
     case 'quantity': {
-      return CreateDropdown('quantity', dropdownname, variantsArray);
+      return CreateDropdown('quantity', dropdownname, relevantVariant);
     }
     case 'paper': {
       if (query.refinement && query.refinement !== 'V00') {
         return CreateDropdown('paper', dropdownname, refinablePaper);
       } else {
-        return CreateDropdown('paper', dropdownname, variantsArray);
+        return CreateDropdown('paper', dropdownname, relevantVariant);
       }
     }
   }
 };
 
-export default DropdownContent;
+export default Select;

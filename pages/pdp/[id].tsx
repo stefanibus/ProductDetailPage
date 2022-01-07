@@ -6,18 +6,20 @@ import queryHelper from '../../utils/config';
 import Head from 'next/head';
 import styles from './index.module.css';
 import SelectField from '../../components/pdp/SelectField';
-import DropdownContent from '../../components/pdp/DropdownContent';
+import Select from '../../components/pdp/Select';
 import Price from '../../components/pdp/Price';
+import Button from '../../components/button';
+import Image from '../../components/pdp/images';
 
 const ProdDetailPage = ({ product }: any) => {
   const router = useRouter();
   const { query } = router;
 
-  const defaultProdOptions = product.defaultSelectedProductOptions;
-  const [configSettings, setConfigSettings] = useState(defaultProdOptions);
+  const defaultProductOptions = product.defaultSelectedProductOptions;
+  const [configSettings, setConfigSettings] = useState(defaultProductOptions);
   const [variant, setVariant] = useState(product.variants[0]);
   const defaultPaper: ChangeEvent<HTMLSelectElement> | any = {
-    target: { value: defaultProdOptions.paper }
+    target: { value: defaultProductOptions.paper }
   };
 
   // [query.format]
@@ -29,14 +31,14 @@ const ProdDetailPage = ({ product }: any) => {
     };
     const newDefaultFormat =
       // default format differs to current variant format
-      variant.format !== defaultProdOptions.format;
+      variant.format !== defaultProductOptions.format;
     const newQueryFormat =
       // the current variant differs from that query value
       variant.format !== query.format;
 
     // set variant to default variant (no query.format)
     if (!Boolean(query.format) && newDefaultFormat) {
-      setVariant(selectVariant(defaultProdOptions.format));
+      setVariant(selectVariant(defaultProductOptions.format));
     }
     // set variant to query.format (query.format does exist and is valid)
     if (Boolean(query.format) && newQueryFormat) {
@@ -49,14 +51,14 @@ const ProdDetailPage = ({ product }: any) => {
       } else {
         // invalid query.format --> set variant to default
         router.replace({
-          query: { ...query, ...{ format: defaultProdOptions.format } }
+          query: { ...query, ...{ format: defaultProductOptions.format } }
         });
       }
     }
   }, [
     query.format,
     product.variants,
-    defaultProdOptions.format,
+    defaultProductOptions.format,
     variant.format
   ]);
 
@@ -72,7 +74,7 @@ const ProdDetailPage = ({ product }: any) => {
         queryInput[type] = query[type];
       } else {
         // reset queryInput to default
-        queryInput[type] = defaultProdOptions[type];
+        queryInput[type] = defaultProductOptions[type];
       }
     };
 
@@ -81,7 +83,7 @@ const ProdDetailPage = ({ product }: any) => {
     formatTypes.forEach(validateQueryInput);
     // update configSettings with validated query-input
     setConfigSettings(queryInput);
-  }, [query, defaultProdOptions]);
+  }, [query, defaultProductOptions]);
 
   const handleDropdown = (
     selectFieldType: string,
@@ -96,77 +98,79 @@ const ProdDetailPage = ({ product }: any) => {
 
   return (
     <>
-      <Head>
-        <title>config Page</title>
-        <link rel="icon" href="https://www.make-mobile.de/favicon.ico" />
-      </Head>
-      <main className={styles.containerCard}>
-        <div>
-          <p>PDP-Image Component</p>
-          <p>Product Description</p>
-          <h1>Headline</h1>
-          <h3>SubTitle</h3>
-          <p>Price Component</p>
-          <Price configSettings={configSettings} variant={variant} />
-          <a href={queryHelper.assembleURL(configSettings)}>
-            config button href{' '}
-          </a>
-        </div>
-        <div>
-          <p>Select-Fields</p>
-          <SelectField
-            label="Format"
-            id="format"
-            className={variant.format}
-            defaultValue={configSettings.format}
-            key={configSettings.format}
-            onChange={e => handleDropdown('format', e)}
-          >
-            <DropdownContent
-              dropdownname="format"
-              variantsArray={product.variants}
-            />
-          </SelectField>
+      <div className={styles.containerCard}>
+        <Head>
+          <title>config Page</title>
+          <link rel="icon" href="https://www.make-mobile.de/favicon.ico" />
+        </Head>
+        <main className={styles.main}>
+          <Image variant={variant} />
+          <div className={styles.productDescription}>
+            <div>
+              <h1 className={styles.cardType}>{product.groupName}</h1>
+              <h3 className={styles.cardName}>{product.name}</h3>
+              <Price configSettings={configSettings} variant={variant} />
+            </div>
+            <SelectField
+              label="Format"
+              id="format"
+              className={variant.format}
+              defaultValue={configSettings.format}
+              key={configSettings.format}
+              onChange={e => handleDropdown('format', e)}
+            >
+              <Select
+                dropdownname="format"
+                relevantVariant={product.variants}
+              />
+            </SelectField>
 
-          <SelectField
-            label="Papier"
-            id="paper"
-            defaultValue={configSettings.paper}
-            key={configSettings.paper}
-            onChange={e => handleDropdown('paper', e)}
-          >
-            <DropdownContent
-              dropdownname="paper"
-              variantsArray={variant.productOptions.papers}
-              handleDropdown={handleDropdown}
-            />
-          </SelectField>
-          <SelectField
-            label="Veredelung"
-            id="refinement"
-            defaultValue={configSettings.refinement}
-            key={configSettings.refinement}
-            onChange={e => handleDropdown('refinement', e)}
-          >
-            <DropdownContent
-              dropdownname="refinement"
-              variantsArray={variant.productOptions.refinements}
-            />
-          </SelectField>
-          <SelectField
-            label="Menge"
-            id="quantity"
-            defaultValue={configSettings.quantity}
-            key={configSettings.quantity}
-            onChange={e => handleDropdown('quantity', e)}
-          >
-            <DropdownContent
-              dropdownname="quantity"
-              variantsArray={variant.prices}
-            />
-          </SelectField>
-        </div>
-      </main>
+            <SelectField
+              label="Papier"
+              id="paper"
+              defaultValue={configSettings.paper}
+              key={configSettings.paper}
+              onChange={e => handleDropdown('paper', e)}
+            >
+              <Select
+                dropdownname="paper"
+                relevantVariant={variant.productOptions.papers}
+                handleDropdown={handleDropdown}
+              />
+            </SelectField>
+            <SelectField
+              label="Veredelung"
+              id="refinement"
+              defaultValue={configSettings.refinement}
+              key={configSettings.refinement}
+              onChange={e => handleDropdown('refinement', e)}
+            >
+              <Select
+                dropdownname="refinement"
+                relevantVariant={variant.productOptions.refinements}
+              />
+            </SelectField>
+            <SelectField
+              label="Menge"
+              id="quantity"
+              defaultValue={configSettings.quantity}
+              key={configSettings.quantity}
+              onChange={e => handleDropdown('quantity', e)}
+            >
+              <Select
+                dropdownname="quantity"
+                relevantVariant={variant.prices}
+              />
+            </SelectField>
+            <div className={styles.wrapButton}>
+              <Button
+                href={`${queryHelper.assembleURL(configSettings)}`}
+                children="Jetzt gestalten"
+              />
+            </div>
+          </div>
+        </main>
+      </div>
     </>
   );
 };
@@ -174,7 +178,9 @@ const ProdDetailPage = ({ product }: any) => {
 export default ProdDetailPage;
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  const data = await fetch(`http://localhost:3000/mockAPI/MGG73GG.json`);
+  const data = await fetch(
+    `http://localhost:3000/mockAPI/${ctx?.params?.id}.json`
+  );
   if (!data.ok) {
     throw new Error('Failed to fetch.');
   }
@@ -186,7 +192,6 @@ export const getStaticProps: GetStaticProps = async ctx => {
     revalidate: 86400
   };
 };
-
 export const getStaticPaths: GetStaticPaths = async ctx => {
   const data = await fetch(`http://localhost:3000/mockAPI/products.json`);
 

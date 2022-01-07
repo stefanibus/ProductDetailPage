@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import styles from './index.module.css';
 import Head from 'next/head';
+import Button from '../../components/button';
 
 const Configure = () => {
   const router = useRouter();
@@ -14,18 +15,19 @@ const Configure = () => {
           <link rel="icon" href="https://www.make-mobile.de/favicon.ico" />
         </Head>
         <main>
-          <h1>Your selected options</h1>
-          <ul>
+          <h1>Your selected options:</h1>
+          <ul className={styles.ul}>
             {Object.entries(query).map(([key, value]) => {
               return (
                 <li key={key}>
-                  {key} = {value}
+                  <span className={styles.values}>{value}</span> ...{key}
                 </li>
               );
-            })}{' '}
+            })}
           </ul>
-
-          <button onClick={() => router.back()}>return</button>
+          <div className={styles.wrapButton}>
+            <Button children="zurück..." onClick={() => router.back()} />
+          </div>
         </main>
       </div>
     </>

@@ -1,5 +1,6 @@
 import queryHelper from '../../../utils/config';
 import formatter from '../../../utils/currencyFormatter';
+import styles from './index.module.css';
 
 // @ts-ignore: Unreachable code error
 const PriceInfo = ({ configSettings, variant }) => {
@@ -15,7 +16,7 @@ const PriceInfo = ({ configSettings, variant }) => {
     );
   };
 
-  return <p>{formatter.format(calcPrice())}</p>;
+  return <div className={styles.price}>{formatter.format(calcPrice())}</div>;
 };
 
 export default PriceInfo;

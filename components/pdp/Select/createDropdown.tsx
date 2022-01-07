@@ -4,7 +4,7 @@ import formatter from '../../../utils/currencyFormatter';
 const CreateDropdown = (
   selecttype = '',
   dropdownname = '',
-  variantsArray: any[]
+  relevantVariant: any[]
 ) => {
   // @ts-ignore: Unreachable code error
   const dropType = queryHelper.dropConfig[dropdownname];
@@ -12,7 +12,7 @@ const CreateDropdown = (
   const labelVal = dropType.labelValue;
   const priceVal = dropType.priceValue;
 
-  return variantsArray.map(
+  return relevantVariant.map(
     (object: {
       [x: string]: boolean | null | undefined | any;
       price: number;

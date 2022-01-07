@@ -10,6 +10,7 @@
   "variants": [
     {
       "concreteSku": "MGG73GG-F020",
+      "imageurl": "../img/baby1.jpg",
       "format": "F020",
       "formatLabel": "Postkarte flach",
       "dimension": "148 x 105mm",
@@ -260,6 +261,7 @@
     },
     {
       "concreteSku": "MGG73GG-F030",
+      "imageurl": "../img/baby2.jpg",
       "format": "F030",
       "formatLabel": "Quadratische Postkarte",
       "dimension": "145 x 145mm",

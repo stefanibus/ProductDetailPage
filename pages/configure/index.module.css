@@ -5,3 +5,18 @@
   justify-content: center;
   align-items: center;
 }
+.wrapButton {
+  text-align: right;
+}
+
+.ul {
+  margin: 3rem 0;
+}
+
+.ul li {
+  margin: 0.75rem 0;
+}
+
+.values {
+  font-size: 2rem;
+}
