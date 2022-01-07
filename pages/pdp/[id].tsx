@@ -178,12 +178,12 @@ const ProdDetailPage = ({ product }: any) => {
 
 export default ProdDetailPage;
 
-export const getStaticProps: GetStaticProps = async ctx => {
-  // const data = await fetch(
-  //   `http://localhost:3000/mockAPI/${ctx?.params?.id}.json`
-  // );
+// @ts-ignore: Unreachable code error
+export const getStaticProps: GetStaticProps = async (ctx: {
+  params: { id: any };
+}) => {
   const data = await fetch(
-    `https://raw.githubusercontent.com/stefanibus/ProductDetailPage/main/public/mockAPI/MGG73GG.json`
+    `https://product-detail-page.vercel.app/mockAPI/${ctx?.params?.id}.json`
   );
   if (!data.ok) {
     throw new Error('Failed to fetch.');
@@ -196,9 +196,9 @@ export const getStaticProps: GetStaticProps = async ctx => {
     revalidate: 86400
   };
 };
-export const getStaticPaths: GetStaticPaths = async ctx => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const data = await fetch(
-    `https://raw.githubusercontent.com/stefanibus/ProductDetailPage/main/public/mockAPI/products.json`
+    `https://product-detail-page.vercel.app/mockAPI/products.json`
   );
 
   if (!data.ok) {
