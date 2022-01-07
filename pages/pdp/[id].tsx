@@ -179,8 +179,11 @@ const ProdDetailPage = ({ product }: any) => {
 export default ProdDetailPage;
 
 export const getStaticProps: GetStaticProps = async ctx => {
+  // const data = await fetch(
+  //   `http://localhost:3000/mockAPI/${ctx?.params?.id}.json`
+  // );
   const data = await fetch(
-    `http://localhost:3000/mockAPI/${ctx?.params?.id}.json`
+    `https://raw.githubusercontent.com/stefanibus/ProductDetailPage/main/public/mockAPI/MGG73GG.json`
   );
   if (!data.ok) {
     throw new Error('Failed to fetch.');
@@ -194,7 +197,9 @@ export const getStaticProps: GetStaticProps = async ctx => {
   };
 };
 export const getStaticPaths: GetStaticPaths = async ctx => {
-  const data = await fetch(`http://localhost:3000/mockAPI/products.json`);
+  const data = await fetch(
+    `https://raw.githubusercontent.com/stefanibus/ProductDetailPage/main/public/mockAPI/products.json`
+  );
 
   if (!data.ok) {
     throw new Error('Failed to fetch.');
