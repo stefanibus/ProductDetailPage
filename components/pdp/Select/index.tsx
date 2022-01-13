@@ -52,19 +52,19 @@ const Select: React.FC<DropdownContentProps> = ({
 
   switch (dropdownname) {
     case 'format': {
-      return CreateDropdown('format', dropdownname, relevantVariant);
+      return CreateDropdown('format', relevantVariant);
     }
     case 'refinement': {
-      return CreateDropdown('refinement', dropdownname, relevantVariant);
+      return CreateDropdown('refinement', relevantVariant);
     }
     case 'quantity': {
-      return CreateDropdown('quantity', dropdownname, relevantVariant);
+      return CreateDropdown('quantity', relevantVariant);
     }
     case 'paper': {
       if (query.refinement && query.refinement !== 'V00') {
-        return CreateDropdown('paper', dropdownname, refinablePaper);
+        return CreateDropdown('paper', refinablePaper);
       } else {
-        return CreateDropdown('paper', dropdownname, relevantVariant);
+        return CreateDropdown('paper', relevantVariant);
       }
     }
   }

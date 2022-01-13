@@ -1,13 +1,9 @@
 import queryHelper from '../../../utils/config';
 import formatter from '../../../utils/currencyFormatter';
 
-const CreateDropdown = (
-  selecttype = '',
-  dropdownname = '',
-  relevantVariant: any[]
-) => {
+const CreateDropdown = (selecttype = '', relevantVariant: any[]) => {
   // @ts-ignore: Unreachable code error
-  const dropType = queryHelper.dropConfig[dropdownname];
+  const dropType = queryHelper.dropConfig[selecttype];
   const keyVal = dropType.keyValue;
   const labelVal = dropType.labelValue;
   const priceVal = dropType.priceValue;

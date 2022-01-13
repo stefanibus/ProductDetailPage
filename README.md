@@ -1,4 +1,4 @@
-# Product-detail-dage with interconnected select-fields
+# Product-detail-page with interconnected select-fields
 
 ### running on Next JS 12+, REST API, TypeScript, with URL-Parameters via React Router Query including param-value-verification
 
