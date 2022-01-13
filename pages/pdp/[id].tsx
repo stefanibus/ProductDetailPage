@@ -29,27 +29,27 @@ const ProdDetailPage = ({ product }: any) => {
         (variant: any) => variant.format === formatValue
       );
     };
-    const newDefaultFormat =
-      // default format differs to current variant format
-      variant.format !== defaultProductOptions.format;
-    const newQueryFormat =
-      // the current variant differs from that query value
-      variant.format !== query.format;
 
-    // set variant to default variant (no query.format)
-    if (!Boolean(query.format) && newDefaultFormat) {
+    const VariantFormatIsDefault =
+      variant.format !== defaultProductOptions.format;
+
+    const VariantFormatNotEqual = variant.format !== query.format;
+
+    // (no query.format) --> set variant to default variant (first variant)
+    if (!Boolean(query.format) && !VariantFormatIsDefault) {
       setVariant(selectVariant(defaultProductOptions.format));
     }
-    // set variant to query.format (query.format does exist and is valid)
-    if (Boolean(query.format) && newQueryFormat) {
-      const updateVariant = selectVariant(query.format);
+    // set variant to query.format
+    if (Boolean(query.format) && VariantFormatNotEqual) {
+      const myVariant = selectVariant(query.format);
       const formatIsValid = product.variants.some(
         (variant: any) => variant['format'] === query.format
       );
       if (formatIsValid) {
-        setVariant(updateVariant);
+        // query.format is valid
+        setVariant(myVariant);
       } else {
-        // invalid query.format --> set variant to default
+        // invalid query.format
         router.replace({
           query: { ...query, ...{ format: defaultProductOptions.format } }
         });
@@ -65,25 +65,27 @@ const ProdDetailPage = ({ product }: any) => {
 
   // [query]  = update ConfigSettings
   useEffect(() => {
-    const queryInput = { ...configSettings, ...{ format: query.format } };
+    if (query.format === undefined) {
+      var formatVal = defaultProductOptions.format;
+    } else {
+      formatVal = query.format.toString();
+    }
+    const queryInput = { ...configSettings, ...{ format: formatVal } };
 
     const validateQueryInput = (type: string) => {
       const ValidQueryValue = queryHelper.isValid(type, variant, query);
 
       if (ValidQueryValue) {
-        // update queryInput with valid value
+        // overwrite defaultValues with valid queryInput value
         queryInput[type] = query[type];
-      } else {
-        // reset queryInput to default
-        queryInput[type] = defaultProductOptions[type];
       }
     };
-
     // validate query values for paper, refinement and quantity
     const formatTypes = ['paper', 'refinement', 'quantity'];
     formatTypes.forEach(validateQueryInput);
     // update configSettings with validated query-input
     setConfigSettings(queryInput);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, defaultProductOptions]);
 
@@ -102,7 +104,9 @@ const ProdDetailPage = ({ product }: any) => {
     <>
       <div className={styles.containerCard}>
         <Head>
-          <title>config Page</title>
+          <title>
+            {product.groupName} - {product.name}
+          </title>
           <link rel="icon" href="https://www.make-mobile.de/favicon.ico" />
         </Head>
         <main className={styles.main}>
@@ -182,9 +186,7 @@ export default ProdDetailPage;
 export const getStaticProps: GetStaticProps = async (ctx: {
   params: { id: any };
 }) => {
-  const data = await fetch(
-    `https://product-detail-page.vercel.app/mockAPI/${ctx?.params?.id}.json`
-  );
+  const data = await fetch(`${process.env.API_PATH}/${ctx?.params?.id}.json`);
   if (!data.ok) {
     throw new Error('Failed to fetch.');
   }
@@ -197,9 +199,7 @@ export const getStaticProps: GetStaticProps = async (ctx: {
   };
 };
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data = await fetch(
-    `https://product-detail-page.vercel.app/mockAPI/products.json`
-  );
+  const data = await fetch(`${process.env.API_PATH}/products.json`);
 
   if (!data.ok) {
     throw new Error('Failed to fetch.');

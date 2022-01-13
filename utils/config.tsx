@@ -58,13 +58,13 @@ const queryHelper = {
       .getPath(type, variant, settings)
       .find((variant: any) => variant[start.keyValue] == settings[type]).price;
   },
-  isValid: (type: string, variant: any, settings: any) => {
+  isValid: (type: string, variant: any, query: any) => {
     // @ts-ignore: Unreachable code error
     const start = queryHelper.dropConfig[type];
     // validate the query-value for this variant
     return queryHelper
-      .getPath(type, variant, settings)
-      .some((variant: any) => variant[start.keyValue] == settings[type]);
+      .getPath(type, variant, query)
+      .some((variant: any) => variant[start.keyValue] == query[type]);
   }
 };
 export default queryHelper;
