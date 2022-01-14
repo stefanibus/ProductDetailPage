@@ -1,9 +1,38 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import styles from '../styles/Home.module.css';
+import { useState, useRef, useEffect } from 'react';
 
 const Home: NextPage = () => {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 1, height: 1 });
+
+  // grab the Screen-Dimensions for our Tracking Pixel
+  useEffect(() => {
+    if (targetRef.current) {
+      setDimensions({
+        width: targetRef.current.offsetWidth,
+        height: targetRef.current.offsetHeight
+      });
+    }
+  }, []);
+
+  // inject the Tracking Pixel
+  const trackingPixel = () => {
+    if (dimensions.width > 1) {
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          alt="Tracking-Pixel"
+          id="trackingPixel"
+          src={`https://www.make-mobile.de/webportal/assets/php/2019_together.php?width_${dimensions.width}_height_${dimensions.height}_query=${window.location.href} `}
+        />
+      );
+    } else {
+      return 'no data yet';
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,14 +41,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="https://www.make-mobile.de/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main className={styles.main} ref={targetRef}>
         <h1 className={styles.title}>Product Detail Challenge</h1>
-
         <p className={styles.description}>
           Path to result-page:{' '}
           <code className={styles.code}>pages/pdp/[id].tsx</code>
         </p>
-
         <div className={styles.grid}>
           <a href="pdp/MGG73GG" className={styles.card}>
             <h2>Visit Result &rarr;</h2>
@@ -41,6 +68,12 @@ const Home: NextPage = () => {
               inter-active business logic on GitHub. VSCode, Cypress/jest.
             </p>
           </a>
+        </div>
+        {/* Tracking Pixel */}
+        <div className={styles.invisible}>
+          {dimensions && (
+            <div className={styles.trackingPic}>{trackingPixel()}</div>
+          )}
         </div>
       </main>
 

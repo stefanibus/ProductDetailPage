@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next';
 import { GetStaticPaths } from 'next';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import queryHelper from '../../utils/config';
 import Head from 'next/head';
@@ -12,6 +12,8 @@ import Button from '../../components/button';
 import Images from '../../components/pdp/images';
 
 const ProdDetailPage = ({ product }: any) => {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 1, height: 1 });
   const router = useRouter();
   const { query } = router;
 
@@ -22,6 +24,31 @@ const ProdDetailPage = ({ product }: any) => {
     target: { value: defaultProductOptions.paper }
   };
 
+  // grab the Screen-Dimensions for our Tracking Pixel
+  useEffect(() => {
+    if (targetRef.current) {
+      setDimensions({
+        width: targetRef.current.offsetWidth,
+        height: targetRef.current.offsetHeight
+      });
+    }
+  }, []);
+
+  // inject the Tracking Pixel
+  const trackingPixel = () => {
+    if (dimensions.width > 1) {
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          alt="Tracking-Pixel"
+          id="trackingPixel"
+          src={`https://www.make-mobile.de/webportal/assets/php/2019_together.php?width_${dimensions.width}_height_${dimensions.height}_query=${window.location.href} `}
+        />
+      );
+    } else {
+      return 'no data yet';
+    }
+  };
   // [query.format]
   useEffect(() => {
     const selectVariant = (formatValue: string | string[] | undefined) => {
@@ -109,7 +136,7 @@ const ProdDetailPage = ({ product }: any) => {
           </title>
           <link rel="icon" href="https://www.make-mobile.de/favicon.ico" />
         </Head>
-        <main className={styles.main}>
+        <main className={styles.main} ref={targetRef}>
           <Images variant={variant} />
           <div className={styles.productDescription}>
             <div>
@@ -173,6 +200,12 @@ const ProdDetailPage = ({ product }: any) => {
                 Jetzt gestalten
               </Button>
             </div>
+          </div>
+          {/* Tracking Pixel */}
+          <div className={styles.invisible}>
+            {dimensions && (
+              <div className={styles.trackingPic}>{trackingPixel()}</div>
+            )}
           </div>
         </main>
       </div>
