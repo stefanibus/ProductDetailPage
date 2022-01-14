@@ -1,37 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import { useState, useRef, useEffect } from 'react';
+import { useRef } from 'react';
+import useTracking from '../utils/useTracking';
 
 const Home: NextPage = () => {
   const targetRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 1, height: 1 });
-
-  // grab the Screen-Dimensions for our Tracking Pixel
-  useEffect(() => {
-    if (targetRef.current) {
-      setDimensions({
-        width: targetRef.current.offsetWidth,
-        height: targetRef.current.offsetHeight
-      });
-    }
-  }, []);
-
-  // inject the Tracking Pixel
-  const trackingPixel = () => {
-    if (dimensions.width > 1) {
-      return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          alt="Tracking-Pixel"
-          id="trackingPixel"
-          src={`https://www.make-mobile.de/webportal/assets/php/2019_together.php?width_${dimensions.width}_height_${dimensions.height}_query=${window.location.href} `}
-        />
-      );
-    } else {
-      return 'no data yet';
-    }
-  };
+  const trackingPixel = useTracking(targetRef);
 
   return (
     <div className={styles.container}>
@@ -70,11 +45,7 @@ const Home: NextPage = () => {
           </a>
         </div>
         {/* Tracking Pixel */}
-        <div className={styles.invisible}>
-          {dimensions && (
-            <div className={styles.trackingPic}>{trackingPixel()}</div>
-          )}
-        </div>
+        <div className={styles.invisible}>{trackingPixel}</div>
       </main>
 
       <footer className={styles.footer}>

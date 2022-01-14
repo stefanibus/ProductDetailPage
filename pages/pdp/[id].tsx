@@ -10,10 +10,12 @@ import Select from '../../components/pdp/Select';
 import Price from '../../components/pdp/Price';
 import Button from '../../components/button';
 import Images from '../../components/pdp/images';
+import useTracking from '../../utils/useTracking';
 
 const ProdDetailPage = ({ product }: any) => {
   const targetRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 1, height: 1 });
+  const trackingPixel = useTracking(targetRef);
+
   const router = useRouter();
   const { query } = router;
 
@@ -24,31 +26,6 @@ const ProdDetailPage = ({ product }: any) => {
     target: { value: defaultProductOptions.paper }
   };
 
-  // grab the Screen-Dimensions for our Tracking Pixel
-  useEffect(() => {
-    if (targetRef.current) {
-      setDimensions({
-        width: targetRef.current.offsetWidth,
-        height: targetRef.current.offsetHeight
-      });
-    }
-  }, []);
-
-  // inject the Tracking Pixel
-  const trackingPixel = () => {
-    if (dimensions.width > 1) {
-      return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          alt="Tracking-Pixel"
-          id="trackingPixel"
-          src={`https://www.make-mobile.de/webportal/assets/php/2019_together.php?width_${dimensions.width}_height_${dimensions.height}_query=${window.location.href} `}
-        />
-      );
-    } else {
-      return 'no data yet';
-    }
-  };
   // [query.format]
   useEffect(() => {
     const selectVariant = (formatValue: string | string[] | undefined) => {
@@ -202,11 +179,7 @@ const ProdDetailPage = ({ product }: any) => {
             </div>
           </div>
           {/* Tracking Pixel */}
-          <div className={styles.invisible}>
-            {dimensions && (
-              <div className={styles.trackingPic}>{trackingPixel()}</div>
-            )}
-          </div>
+          <div className={styles.invisible}>{trackingPixel}</div>
         </main>
       </div>
     </>
