@@ -106,14 +106,14 @@ const ProdDetailPage = ({ product }: any) => {
 
   return (
     <>
-      <div className={styles.containerCard}>
+      <div className={styles.containerCard} ref={targetRef}>
         <Head>
           <title>
             {product.groupName} - {product.name}
           </title>
           <link rel="icon" href="https://www.make-mobile.de/favicon.ico" />
         </Head>
-        <main className={styles.main} ref={targetRef}>
+        <main className={styles.main}>
           <Images variant={variant} />
           <div className={styles.productDescription}>
             <div>
@@ -178,9 +178,9 @@ const ProdDetailPage = ({ product }: any) => {
               </Button>
             </div>
           </div>
-          {/* Tracking Pixel */}
-          <div className={styles.invisible}>{trackingPixel}</div>
         </main>
+        {/* Tracking Pixel */}
+        <div className={styles.invisible}>{trackingPixel}</div>
       </div>
     </>
   );

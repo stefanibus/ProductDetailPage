@@ -18,15 +18,19 @@ const useTracking = (myRef: RefObject<HTMLDivElement>) => {
     }
   }, [myRef]);
 
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      style={{ visibility: 'hidden' }}
-      alt="Tracking-Pixel"
-      id="trackingPixel"
-      src={`https://www.make-mobile.de/webportal/assets/php/2019_together.php?width_${dimensions.width}_height_${dimensions.height}_query=${dimensions.hrefPath}  `}
-    />
-  );
+  const myRefIsUpdated = dimensions.width > 1;
+  if (myRefIsUpdated) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        alt="Tracking-Pixel"
+        id="trackingPixel"
+        src={`https://www.make-mobile.de/webportal/assets/php/2019_together.php?width_${dimensions.width}_height_${dimensions.height}_query=${dimensions.hrefPath}  `}
+      />
+    );
+  } else {
+    return '';
+  }
 };
 
 export default useTracking;
